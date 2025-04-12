@@ -25,4 +25,4 @@
 
 ---
 
-![WeatherWise Demo](https://www.google.com/url?sa=i&url=https%3A%2F%2Fdribbble.com%2Fshots%2F8498294-Crazy-Weather&psig=AOvVaw0-XAl4aby34o-h2mW5ArJ0&ust=1744547550965000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCODwiJrA0owDFQAAAAAdAAAAABAE.gif)
+![WeatherWise Demo](https://i.pinimg.com/originals/68/85/c4/6885c4b9f5e11a405c94f2ab0192fa9c.gif)
