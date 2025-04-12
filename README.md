@@ -1,6 +1,7 @@
 # 🌤️ WeatherWise
 
 **WeatherWise** is an AI-powered weather web application that provides real-time weather updates and smart suggestions based on current conditions. It’s built with a modern responsive UI and supports multiple cities with quick search functionality.
+
 ![WeatherWise Screenshot](ss01.png)
 
 ## Features
