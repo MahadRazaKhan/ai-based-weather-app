@@ -23,6 +23,4 @@
 - JavaScript (Vanilla JS)
 - OpenWeatherMap API
 
----
-
 ![WeatherWise Demo](https://i.pinimg.com/originals/68/85/c4/6885c4b9f5e11a405c94f2ab0192fa9c.gif)
