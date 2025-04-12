@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherWise - AI-Powered Weather App</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: clamp(24px, 5vw, 36px);
+        }
+        
+        header p {
+            font-size: clamp(14px, 3vw, 18px);
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-direction: column;
+        }
+        
+        @media (min-width: 480px) {
+            .search-container {
+                flex-direction: row;
+            }
+        }
+        
+        input{
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        @media (min-width: 480px) {
+            input {
+                width: auto;
+                flex: 1;
+            }
+            button {
+                width: auto;
+            }
+        }
+        
+        input {
+            outline: none;
+        }
+        
+        input:focus {
+            border-color: var(--primary);
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: 1px solid grey;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .weather-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .weather-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+        
+        .current-weather, .forecast, .ai-suggestions {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 480px) {
+            .current-weather, .forecast, .ai-suggestions {
+                padding: 20px;
+            }
+        }
+        
+        .current-weather {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .weather-header {
+                flex-direction: row;
+                align-items: center;
+                gap: 0;
+            }
+        }
+        
+        .location {
+            font-size: clamp(20px, 5vw, 24px);
+            font-weight: bold;
+        }
+        
+        .date {
+            color: #666;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        
+        .weather-main {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .temperature {
+            font-size: clamp(36px, 8vw, 48px);
+            font-weight: bold;
+            margin-right: 0;
+        }
+        
+        .weather-icon {
+            width: clamp(60px, 15vw, 80px);
+            height: clamp(60px, 15vw, 80px);
+        }
+        
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        @media (min-width: 400px) {
+            .weather-details {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        
+        .detail-icon {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        .forecast {
+            grid-column: 1 / -1;
+        }
+        
+        .forecast-title {
+            margin-bottom: 12px;
+            font-size: clamp(18px, 4vw, 20px);
+            color: var(--primary);
+        }
+        
+        .forecast-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .forecast-items {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 15px;
+                overflow-x: visible;
+                padding-bottom: 0;
+            }
+        }
+        
+        .forecast-item {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            min-width: 100px;
+        }
+        
+        .forecast-day {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        
+        .forecast-icon {
+            width: clamp(30px, 8vw, 40px);
+            height: clamp(30px, 8vw, 40px);
+            margin: 5px auto;
+        }
+        
+        .forecast-temp {
+            font-size: clamp(12px, 3vw, 14px);
+        }
+        
+        .ai-suggestions {
+            margin-top: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .ai-suggestions {
+                margin-top: 20px;
+            }
+        }
+        
+        .ai-title {
+            margin-bottom: 12px;
+            font-size: clamp(18px, 4vw, 20px);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-icon {
+            margin-right: 8px;
+        }
+        
+        .suggestion {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .suggestion {
+                padding: 15px;
+            }
+        }
+        
+        .suggestion-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--secondary);
+            font-size: clamp(14px, 3vw, 16px);
+        }
+        
+        .suggestion div {
+            font-size: clamp(13px, 3vw, 15px);
+        }
+        
+        .loading, .error {
+            text-align: center;
+            padding: 20px;
+            font-size: clamp(16px, 4vw, 18px);
+        }
+        
+        .error {
+            color: var(--danger);
+            background-color: #ffebee;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .popular-cities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        
+        @media (min-width: 480px) {
+            .popular-cities {
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+        }
+        
+        .city-btn {
+            padding: 6px 12px;
+            background-color: var(--primary);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: clamp(12px, 3vw, 14px);
+        }
+        
+        @media (min-width: 480px) {
+            .city-btn {
+                padding: 8px 15px;
+            }
+        }
+        
+        .city-btn:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WeatherWise</h1>
+            <p>Real-time weather with AI-powered suggestions</p>
+        </header>
+        
+        <div class="popular-cities">
+            <button class="city-btn" data-city="Delhi">Delhi</button>
+            <button class="city-btn" data-city="Mumbai">Mumbai</button>
+            <button class="city-btn" data-city="Bangalore">Bangalore</button>
+            <button class="city-btn" data-city="Hyderabad">Hyderabad</button>
+            <button class="city-btn" data-city="Chennai">Chennai</button>
+            <button class="city-btn" data-city="Kolkata">Kolkata</button>
+            <button class="city-btn" data-city="New York">New York</button>
+            <button class="city-btn" data-city="London">London</button>
+            <button class="city-btn" data-city="Tokyo">Tokyo</button>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="city-input" placeholder="Enter city name...">
+            <button id="search-btn">Search</button>
+        </div>
+        
+        <div id="weather-display">
+            <!-- Weather data will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cityInput = document.getElementById('city-input');
+            const searchBtn = document.getElementById('search-btn');
+            const weatherDisplay = document.getElementById('weather-display');
+            const cityButtons = document.querySelectorAll('.city-btn');
+            
+            // API keys (in a real app, these should be secured on the backend)
+            const WEATHER_API_KEY = '074cc116ce019e7c40750d3347521e58';
+            
+            // Default city
+            const defaultCity = 'Delhi';
+            
+            // Initialize with default city
+            fetchWeather(defaultCity);
+            
+            // Event listeners
+            searchBtn.addEventListener('click', () => {
+                const city = cityInput.value.trim();
+                if (city) {
+                    fetchWeather(city);
+                }
+            });
+            
+            cityInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const city = cityInput.value.trim();
+                    if (city) {
+                        fetchWeather(city);
+                    }
+                }
+            });
+            
+            cityButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const city = button.getAttribute('data-city');
+                    cityInput.value = city;
+                    fetchWeather(city);
+                });
+            });
+            
+            // Fetch weather data
+            async function fetchWeather(city) {
+                weatherDisplay.innerHTML = '<div class="loading">Loading weather data...</div>';
+                
+                try {
+                    // Fetch current weather
+                    const currentWeatherResponse = await fetch(
+                        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${WEATHER_API_KEY}`
+                    );
+                    
+                    if (!currentWeatherResponse.ok) {
+                        throw new Error('City not found');
+                    }
+                    
+                    const currentWeatherData = await currentWeatherResponse.json();
+                    
+                    // Fetch forecast
+                    const forecastResponse = await fetch(
+                        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${WEATHER_API_KEY}`
+                    );
+                    
+                    const forecastData = await forecastResponse.json();
+                    
+                    // Generate AI suggestions
+                    const aiSuggestions = await generateAISuggestions(currentWeatherData);
+                    
+                    // Display all data
+                    displayWeather(currentWeatherData, forecastData, aiSuggestions);
+                } catch (error) {
+                    weatherDisplay.innerHTML = `
+                        <div class="error">
+                            <p>Error: ${error.message}</p>
+                            <p>Please try another city.</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Display weather data
+            function displayWeather(current, forecast, aiSuggestions) {
+                const currentDate = new Date(current.dt * 1000);
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = currentDate.toLocaleDateString('en-US', options);
+                
+                // Group forecast by day
+                const dailyForecast = {};
+                forecast.list.forEach(item => {
+                    const date = new Date(item.dt * 1000).toLocaleDateString();
+                    if (!dailyForecast[date]) {
+                        dailyForecast[date] = item;
+                    }
+                });
+                
+                // Get next 5 days forecast
+                const forecastDays = Object.values(dailyForecast).slice(1, 6);
+                
+                weatherDisplay.innerHTML = `
+                    <div class="weather-container">
+                        <div class="current-weather">
+                            <div class="weather-header">
+                                <div>
+                                    <div class="location">${current.name}, ${current.sys.country}</div>
+                                    <div class="date">${formattedDate}</div>
+                                </div>
+                                <div class="weather-icon">
+                                    <img src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" alt="${current.weather[0].description}">
+                                </div>
+                            </div>
+                            
+                            <div class="weather-main">
+                                <div class="temperature">${Math.round(current.main.temp)}°C</div>
+                                <div>
+                                    <div>${current.weather[0].main}</div>
+                                    <div>Feels like: ${Math.round(current.main.feels_like)}°C</div>
+                                </div>
+                            </div>
+                            
+                            <div class="weather-details">
+                                <div class="detail-item">
+                                    <span class="detail-icon">💧</span>
+                                    <span>Humidity: ${current.main.humidity}%</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-icon">💨</span>
+                                    <span>Wind: ${current.wind.speed} m/s</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-icon">🌡️</span>
+                                    <span>Pressure: ${current.main.pressure} hPa</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-icon">👀</span>
+                                    <span>Visibility: ${current.visibility / 1000} km</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-suggestions">
+                            <h3 class="ai-title">
+                                <span class="ai-icon">🤖</span>
+                                AI-Powered Suggestions
+                            </h3>
+                            ${aiSuggestions.map(suggestion => `
+                                <div class="suggestion">
+                                    <div class="suggestion-title">${suggestion.title}</div>
+                                    <div>${suggestion.content}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="forecast">
+                            <h3 class="forecast-title">5-Day Forecast</h3>
+                            <div class="forecast-items">
+                                ${forecastDays.map(day => {
+                                    const date = new Date(day.dt * 1000);
+                                    const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+                                    return `
+                                        <div class="forecast-item">
+                                            <div class="forecast-day">${dayName}</div>
+                                            <img class="forecast-icon" src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}">
+                                            <div class="forecast-temp">
+                                                <span>${Math.round(day.main.temp_max)}°</span> / 
+                                                <span>${Math.round(day.main.temp_min)}°</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Generate AI suggestions based on weather
+            async function generateAISuggestions(weatherData) {
+                const weather = weatherData.weather[0].main.toLowerCase();
+                const temp = weatherData.main.temp;
+                const humidity = weatherData.main.humidity;
+                const windSpeed = weatherData.wind.speed;
+                
+                const suggestions = [];
+                
+                // Clothing suggestion
+                if (temp < 10) {
+                    suggestions.push({
+                        title: "Clothing Recommendation",
+                        content: "It's quite cold! Wear a heavy jacket, gloves, and a warm hat. Layer your clothing to stay warm."
+                    });
+                } else if (temp < 20) {
+                    suggestions.push({
+                        title: "Clothing Recommendation",
+                        content: "It's cool outside. A light jacket or sweater would be perfect for this weather."
+                    });
+                } else {
+                    suggestions.push({
+                        title: "Clothing Recommendation",
+                        content: "It's warm outside. Light, breathable clothing like t-shirts and shorts would be comfortable."
+                    });
+                }
+                
+                // Activity suggestion
+                if (weather.includes('rain')) {
+                    suggestions.push({
+                        title: "Activity Suggestion",
+                        content: "Perfect day to stay indoors with a good book or movie. If you must go out, don't forget your umbrella!"
+                    });
+                } else if (weather.includes('cloud')) {
+                    suggestions.push({
+                        title: "Activity Suggestion",
+                        content: "Great weather for outdoor activities without the harsh sun. Consider a walk in the park or outdoor sports."
+                    });
+                } else if (temp > 30) {
+                    suggestions.push({
+                        title: "Activity Suggestion",
+                        content: "It's very hot outside. Stay hydrated and limit outdoor activities during peak sun hours (11AM-3PM)."
+                    });
+                } else {
+                    suggestions.push({
+                        title: "Activity Suggestion",
+                        content: "Beautiful weather for outdoor activities! Consider hiking, cycling, or a picnic."
+                    });
+                }
+                
+                // Health suggestion
+                if (humidity > 80) {
+                    suggestions.push({
+                        title: "Health Tip",
+                        content: "High humidity can make temperatures feel warmer than they are and can cause discomfort. Stay hydrated and take breaks in air-conditioned spaces if possible."
+                    });
+                }
+                
+                if (windSpeed > 10) {
+                    suggestions.push({
+                        title: "Wind Advisory",
+                        content: "Strong winds expected. Secure loose outdoor items and be cautious when driving, especially on open roads."
+                    });
+                }
+                
+                // Travel suggestion
+                if (weather.includes('fog') || weather.includes('mist')) {
+                    suggestions.push({
+                        title: "Travel Advisory",
+                        content: "Low visibility conditions. If driving, use low-beam headlights and maintain extra distance between vehicles."
+                    });
+                }
+                
+                return suggestions;
+            }
+        });
+    </script>
+</body>
+</html>
