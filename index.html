@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeatherWise - AI-Powered Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
             --primary: #4361ee;
@@ -23,10 +24,14 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+            background-image: url('https://images7.alphacoders.com/348/348231.jpg');
+            background-position: center;
+            background-size: cover;
             min-height: 100vh;
             padding: 20px;
             color: var(--dark);
+            overflow-x: hidden;
         }
         
         /* Loading Screen Styles */
@@ -36,7 +41,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background:lightgray;
+            background-image: url('https://t3.ftcdn.net/jpg/12/76/94/62/360_F_1276946226_baRJSmFtZebT86ii4XYAsLWOsP2v016E.jpg');
+            background-position: center;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -54,33 +61,56 @@
             width: 120px;
             height: 120px;
             margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .loading-text {
             font-size: 1.2rem;
-            color:#4361ee;
+            color: var(--primary);
             font-weight: 500;
+            animation: fadeInOut 2s infinite;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
         }
         
         .container {
             max-width: 1000px;
             margin: 0 auto;
             width: 100%;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         header {
             text-align: center;
             margin-bottom: 20px;
+            animation: slideInDown 0.8s ease-out;
         }
         
         h1 {
             color: var(--primary);
             margin-bottom: 8px;
             font-size: clamp(24px, 5vw, 36px);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         header p {
             font-size: clamp(14px, 3vw, 18px);
+            animation: fadeIn 1.2s ease-out;
         }
         
         .search-container {
@@ -88,6 +118,7 @@
             gap: 10px;
             margin-bottom: 20px;
             flex-direction: column;
+            animation: fadeIn 1.4s ease-out;
         }
         
         @media (min-width: 480px) {
@@ -102,24 +133,18 @@
             border: 1px solid #ddd;
             font-size: 16px;
             width: 100%;
-        }
-        
-        @media (min-width: 480px) {
-            input {
-                width: auto;
-                flex: 1;
-            }
-            button {
-                width: auto;
-            }
+            transition: all 0.3s ease;
         }
         
         input {
             outline: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         input:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            transform: translateY(-2px);
         }
         
         button {
@@ -129,11 +154,18 @@
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         button:hover {
             background-color:#3f37c9;
-            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
         }
         
         .weather-container {
@@ -153,7 +185,19 @@
             background-color: white;
             border-radius: 12px;
             padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .current-weather:hover, .forecast:hover, .ai-suggestions:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @media (min-width: 480px) {
@@ -165,6 +209,7 @@
         .current-weather {
             display: flex;
             flex-direction: column;
+            animation-delay: 0.2s;
         }
         
         .weather-header {
@@ -187,11 +232,13 @@
         .location {
             font-size: clamp(20px, 5vw, 24px);
             font-weight: bold;
+            animation: slideInLeft 0.8s ease-out;
         }
         
         .date {
             color: #666;
             font-size: clamp(14px, 3vw, 16px);
+            animation: slideInRight 0.8s ease-out;
         }
         
         .weather-main {
@@ -206,11 +253,13 @@
             font-size: clamp(36px, 8vw, 48px);
             font-weight: bold;
             margin-right: 0;
+            animation: pulse 2s infinite;
         }
         
         .weather-icon {
             width: clamp(60px, 15vw, 80px);
             height: clamp(60px, 15vw, 80px);
+            animation: bounceIn 1s ease-out;
         }
         
         .weather-details {
@@ -229,21 +278,34 @@
             display: flex;
             align-items: center;
             font-size: clamp(14px, 3vw, 16px);
+            animation: fadeIn 0.8s ease-out;
         }
+        
+        .detail-item:nth-child(1) { animation-delay: 0.2s; }
+        .detail-item:nth-child(2) { animation-delay: 0.3s; }
+        .detail-item:nth-child(3) { animation-delay: 0.4s; }
+        .detail-item:nth-child(4) { animation-delay: 0.5s; }
         
         .detail-icon {
             margin-right: 8px;
             color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+        
+        .detail-item:hover .detail-icon {
+            transform: scale(1.2);
         }
         
         .forecast {
             grid-column: 1 / -1;
+            animation-delay: 0.4s;
         }
         
         .forecast-title {
             margin-bottom: 12px;
             font-size: clamp(18px, 4vw, 20px);
             color: var(--primary);
+            animation: slideInDown 0.8s ease-out;
         }
         
         .forecast-items {
@@ -269,6 +331,14 @@
             border-radius: 8px;
             background-color: #f8f9fa;
             min-width: 100px;
+            transition: all 0.3s ease;
+            animation: zoomIn 0.6s ease-out;
+        }
+        
+        .forecast-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-color: white;
         }
         
         .forecast-day {
@@ -281,6 +351,11 @@
             width: clamp(30px, 8vw, 40px);
             height: clamp(30px, 8vw, 40px);
             margin: 5px auto;
+            transition: all 0.3s ease;
+        }
+        
+        .forecast-item:hover .forecast-icon {
+            transform: scale(1.2);
         }
         
         .forecast-temp {
@@ -289,6 +364,7 @@
         
         .ai-suggestions {
             margin-top: 0;
+            animation-delay: 0.6s;
         }
         
         @media (min-width: 768px) {
@@ -303,10 +379,12 @@
             color: var(--primary);
             display: flex;
             align-items: center;
+            animation: slideInLeft 0.8s ease-out;
         }
         
         .ai-icon {
             margin-right: 8px;
+            animation: swing 2s infinite;
         }
         
         .suggestion {
@@ -314,6 +392,14 @@
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+            animation: fadeInRight 0.8s ease-out;
+        }
+        
+        .suggestion:hover {
+            background-color: white;
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         
         @media (min-width: 480px) {
@@ -337,6 +423,7 @@
             text-align: center;
             padding: 20px;
             font-size: clamp(16px, 4vw, 18px);
+            animation: fadeIn 0.8s ease-out;
         }
         
         .error {
@@ -344,6 +431,13 @@
             background-color: #ffebee;
             border-radius: 8px;
             margin-top: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
         }
         
         .popular-cities {
@@ -352,6 +446,7 @@
             gap: 8px;
             margin-bottom: 15px;
             justify-content: center;
+            animation: fadeIn 1s ease-out;
         }
         
         @media (min-width: 480px) {
@@ -370,6 +465,14 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: clamp(12px, 3vw, 14px);
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .city-btn:hover {
+            background-color:#3f37c9;
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         
         @media (min-width: 480px) {
@@ -378,10 +481,38 @@
             }
         }
         
-        .city-btn:hover {
-            background-color:#3f37c9;
-            color: white;
-            transition:all  0.3s;
+        /* Background animation */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(67, 97, 238, 0.05) 0%, rgba(63, 55, 201, 0.05) 100%);
+            z-index: -1;
+            animation: gradientShift 15s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Floating clouds animation */
+        .cloud {
+            position: fixed;
+            opacity: 0.3;
+            z-index: -1;
+            animation: float linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(50px) translateY(-20px); }
+            100% { transform: translateX(0) translateY(0); }
         }
     </style>
 </head>
@@ -389,13 +520,15 @@
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <img src="https://forums.synfig.org/uploads/default/original/2X/3/31d749625faa93271be23874d416f9be755b7cb9.gif" alt="Loading..." class="loading-gif">
-        <div class="loading-text">Loading WeatherWise...</div>
+        <div class="loading-text">Initializing WeatherWise...</div>
     </div>
 
+    <!-- Floating clouds (dynamically added) -->
+    
     <div class="container">
         <header>
-            <h1>WeatherWise</h1>
-            <p>Real-time weather with AI-powered suggestions</p>
+            <h1 class="animate__animated animate__fadeIn">WeatherWise</h1>
+            <p>Your intelligent weather companion</p>
         </header>
         
         <div class="popular-cities">
@@ -412,7 +545,7 @@
         
         <div class="search-container">
             <input type="text" id="city-input" placeholder="Enter city name...">
-            <button id="search-btn">Search</button>
+            <button id="search-btn"><i class="fas fa-search"></i> Search</button>
         </div>
         
         <div id="weather-display">
@@ -422,6 +555,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Create floating clouds
+            function createClouds() {
+                const cloudIcons = ['☁️', '⛅', '🌤️', '🌥️'];
+                for (let i = 0; i < 8; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.className = 'cloud';
+                    cloud.textContent = cloudIcons[Math.floor(Math.random() * cloudIcons.length)];
+                    cloud.style.fontSize = `${Math.random() * 30 + 20}px`;
+                    cloud.style.left = `${Math.random() * 100}vw`;
+                    cloud.style.top = `${Math.random() * 100}vh`;
+                    cloud.style.animationDuration = `${Math.random() * 30 + 30}s`;
+                    document.body.appendChild(cloud);
+                }
+            }
+            
+            createClouds();
+            
             // Hide loading screen after 2 seconds or when content is loaded
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
@@ -473,7 +623,7 @@
             
             // Fetch weather data
             async function fetchWeather(city) {
-                weatherDisplay.innerHTML = '<div class="loading">Loading weather data...</div>';
+                weatherDisplay.innerHTML = '<div class="loading animate__animated animate__fadeIn">Loading weather data...</div>';
                 
                 try {
                     // Fetch current weather
@@ -501,7 +651,7 @@
                     displayWeather(currentWeatherData, forecastData, aiSuggestions);
                 } catch (error) {
                     weatherDisplay.innerHTML = `
-                        <div class="error">
+                        <div class="error animate__animated animate__shakeX">
                             <p>Error: ${error.message}</p>
                             <p>Please try another city.</p>
                         </div>
@@ -529,7 +679,7 @@
                 
                 weatherDisplay.innerHTML = `
                     <div class="weather-container">
-                        <div class="current-weather">
+                        <div class="current-weather animate__animated animate__fadeIn">
                             <div class="weather-header">
                                 <div>
                                     <div class="location">${current.name}, ${current.sys.country}</div>
@@ -568,27 +718,27 @@
                             </div>
                         </div>
                         
-                        <div class="ai-suggestions">
+                        <div class="ai-suggestions animate__animated animate__fadeIn">
                             <h3 class="ai-title">
                                 <span class="ai-icon">🤖</span>
                                 AI-Powered Suggestions
                             </h3>
-                            ${aiSuggestions.map(suggestion => `
-                                <div class="suggestion">
+                            ${aiSuggestions.map((suggestion, index) => `
+                                <div class="suggestion animate__animated animate__fadeIn" style="animation-delay: ${index * 0.1}s">
                                     <div class="suggestion-title">${suggestion.title}</div>
                                     <div>${suggestion.content}</div>
                                 </div>
                             `).join('')}
                         </div>
                         
-                        <div class="forecast">
+                        <div class="forecast animate__animated animate__fadeIn">
                             <h3 class="forecast-title">5-Day Forecast</h3>
                             <div class="forecast-items">
-                                ${forecastDays.map(day => {
+                                ${forecastDays.map((day, index) => {
                                     const date = new Date(day.dt * 1000);
                                     const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
                                     return `
-                                        <div class="forecast-item">
+                                        <div class="forecast-item animate__animated animate__zoomIn" style="animation-delay: ${index * 0.1}s">
                                             <div class="forecast-day">${dayName}</div>
                                             <img class="forecast-icon" src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}">
                                             <div class="forecast-temp">
@@ -617,17 +767,17 @@
                 if (temp < 10) {
                     suggestions.push({
                         title: "Clothing Recommendation",
-                        content: "It's quite cold! Wear a heavy jacket, gloves, and a warm hat. Layer your clothing to stay warm."
+                        content: "Bundle up! Wear thermal layers, a heavy coat, gloves, and a warm hat to combat the cold."
                     });
                 } else if (temp < 20) {
                     suggestions.push({
                         title: "Clothing Recommendation",
-                        content: "It's cool outside. A light jacket or sweater would be perfect for this weather."
+                        content: "Layer up with a light jacket or sweater over a t-shirt for optimal comfort."
                     });
                 } else {
                     suggestions.push({
                         title: "Clothing Recommendation",
-                        content: "It's warm outside. Light, breathable clothing like t-shirts and shorts would be comfortable."
+                        content: "Light, breathable fabrics like cotton or linen will keep you cool and comfortable."
                     });
                 }
                 
@@ -635,37 +785,37 @@
                 if (weather.includes('rain')) {
                     suggestions.push({
                         title: "Activity Suggestion",
-                        content: "Perfect day to stay indoors with a good book or movie. If you must go out, don't forget your umbrella!"
+                        content: "Perfect indoor day: Consider reading, movie marathons, or visiting museums. If going out, waterproof gear is essential."
                     });
                 } else if (weather.includes('cloud')) {
                     suggestions.push({
                         title: "Activity Suggestion",
-                        content: "Great weather for outdoor activities without the harsh sun. Consider a walk in the park or outdoor sports."
+                        content: "Ideal for outdoor activities without sun glare - try hiking, photography, or open-air markets."
                     });
                 } else if (temp > 30) {
                     suggestions.push({
                         title: "Activity Suggestion",
-                        content: "It's very hot outside. Stay hydrated and limit outdoor activities during peak sun hours (11AM-3PM)."
+                        content: "Stay cool: Plan water-based activities, visit air-conditioned spaces, and avoid strenuous outdoor activities between 11AM-3PM."
                     });
                 } else {
                     suggestions.push({
                         title: "Activity Suggestion",
-                        content: "Beautiful weather for outdoor activities! Consider hiking, cycling, or a picnic."
+                        content: "Perfect outdoor conditions: Great for sports, picnics, gardening, or exploring your city."
                     });
                 }
                 
                 // Health suggestion
                 if (humidity > 80) {
                     suggestions.push({
-                        title: "Health Tip",
-                        content: "High humidity can make temperatures feel warmer than they are and can cause discomfort. Stay hydrated and take breaks in air-conditioned spaces if possible."
+                        title: "Health Advisory",
+                        content: "High humidity alert: Stay hydrated, use moisture-wicking fabrics, and take breaks in air-conditioned spaces to prevent heat exhaustion."
                     });
                 }
                 
                 if (windSpeed > 10) {
                     suggestions.push({
                         title: "Wind Advisory",
-                        content: "Strong winds expected. Secure loose outdoor items and be cautious when driving, especially on open roads."
+                        content: "Strong winds expected: Secure outdoor objects, be cautious when driving high-profile vehicles, and protect your eyes from debris."
                     });
                 }
                 
@@ -673,7 +823,7 @@
                 if (weather.includes('fog') || weather.includes('mist')) {
                     suggestions.push({
                         title: "Travel Advisory",
-                        content: "Low visibility conditions. If driving, use low-beam headlights and maintain extra distance between vehicles."
+                        content: "Low visibility conditions: Allow extra travel time, use fog lights, maintain greater following distances, and avoid unnecessary trips."
                     });
                 }
                 
