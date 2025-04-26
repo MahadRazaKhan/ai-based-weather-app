@@ -510,23 +510,130 @@
             50% { transform: translateX(50px) translateY(-20px); }
             100% { transform: translateX(0) translateY(0); }
         }
+
+        /* Footer Styles */
+    .weatherwise-footer {
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 2rem 1rem 0;
+        margin-top: 2rem;
+        color: var(--dark);
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .footer-container {
+            grid-template-columns: 1fr 2fr;
+        }
+    }
+    
+    .footer-brand h3 {
+        color: var(--primary);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .footer-brand p {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .footer-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+    }
+    
+    .footer-section h4 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .footer-section li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .footer-section a {
+        color: #555;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .footer-section a:hover {
+        color: var(--primary);
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .social-links a {
+        color: #555;
+        font-size: 1.2rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .social-links a:hover {
+        color: var(--primary);
+        transform: translateY(-2px);
+    }
+    
+    .contact-email {
+        color: #555;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    .footer-bottom {
+        max-width: 1200px;
+        margin: 2rem auto 0;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        color: #666;
+        font-size: 0.8rem;
+    }
+    
+    @media (min-width: 480px) {
+        .footer-bottom {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <img src="https://forums.synfig.org/uploads/default/original/2X/3/31d749625faa93271be23874d416f9be755b7cb9.gif" alt="Loading..." class="loading-gif">
         <div class="loading-text">Initializing WeatherWise...</div>
     </div>
-
-    <!-- Floating clouds (dynamically added) -->
-    
     <div class="container">
         <header>
             <h1 class="animate__animated animate__fadeIn">WeatherWise</h1>
             <p>Your intelligent weather companion</p>
         </header>
-        
         <div class="popular-cities">
             <button class="city-btn" data-city="Karachi">Karachi</button>
             <button class="city-btn" data-city="Lahore">Lahore</button>
@@ -539,7 +646,6 @@
             <button class="city-btn" data-city="London">London</button>
             <button class="city-btn" data-city="Tokyo">Tokyo</button>
         </div>
-        
         <div class="search-container">
             <input type="text" id="city-input" placeholder="Enter city name...">
             <button id="search-btn"><i class="fas fa-search"></i> Search</button>
@@ -549,7 +655,47 @@
             <!-- Weather data will be displayed here -->
         </div>
     </div>
-
+    <footer class="weatherwise-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>WeatherWise</h3>
+                <p>Your intelligent weather companion</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <!-- <li><a href="#">Features</a></li> -->
+                        <!-- <li><a href="#">Cities</a></li> -->
+                        <!-- <li><a href="#">About</a></li> -->
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>  
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <!-- <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> -->
+                        <!-- <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a> -->
+                    </div>
+                    <p class="contact-email">WeatherWise Web App</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 WeatherWise. All rights reserved.</p>
+            <p>Powered by OpenWeatherMap API</p>
+        </div>
+    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Create floating clouds
@@ -566,33 +712,25 @@
                     document.body.appendChild(cloud);
                 }
             }
-            
             createClouds();
-            
             // Hide loading screen after 2 seconds or when content is loaded
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
-                
                 // Remove loading screen completely after animation
                 setTimeout(() => {
                     document.getElementById('loadingScreen').style.display = 'none';
                 }, 500);
             }, 2000);
-            
             const cityInput = document.getElementById('city-input');
             const searchBtn = document.getElementById('search-btn');
             const weatherDisplay = document.getElementById('weather-display');
             const cityButtons = document.querySelectorAll('.city-btn');
-            
             // API keys (in a real app, these should be secured on the backend)
             const WEATHER_API_KEY = '074cc116ce019e7c40750d3347521e58';
-            
             // Default city
             const defaultCity = 'Delhi';
-            
             // Initialize with default city
             fetchWeather(defaultCity);
-            
             // Event listeners
             searchBtn.addEventListener('click', () => {
                 const city = cityInput.value.trim();
@@ -600,7 +738,6 @@
                     fetchWeather(city);
                 }
             });
-            
             cityInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     const city = cityInput.value.trim();
@@ -609,7 +746,6 @@
                     }
                 }
             });
-            
             cityButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const city = button.getAttribute('data-city');
@@ -617,33 +753,25 @@
                     fetchWeather(city);
                 });
             });
-            
             // Fetch weather data
             async function fetchWeather(city) {
-                weatherDisplay.innerHTML = '<div class="loading animate__animated animate__fadeIn">Loading weather data...</div>';
-                
+                weatherDisplay.innerHTML = '<div class="loading animate__animated animate__fadeIn">Loading weather data...</div>'; 
                 try {
                     // Fetch current weather
                     const currentWeatherResponse = await fetch(
                         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${WEATHER_API_KEY}`
                     );
-                    
                     if (!currentWeatherResponse.ok) {
                         throw new Error('City not found');
                     }
-                    
                     const currentWeatherData = await currentWeatherResponse.json();
-                    
                     // Fetch forecast
                     const forecastResponse = await fetch(
                         `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${WEATHER_API_KEY}`
                     );
-                    
                     const forecastData = await forecastResponse.json();
-                    
                     // Generate AI suggestions
                     const aiSuggestions = await generateAISuggestions(currentWeatherData);
-                    
                     // Display all data
                     displayWeather(currentWeatherData, forecastData, aiSuggestions);
                 } catch (error) {
@@ -654,14 +782,12 @@
                         </div>
                     `;
                 }
-            }
-            
+            }            
             // Display weather data
             function displayWeather(current, forecast, aiSuggestions) {
                 const currentDate = new Date(current.dt * 1000);
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                const formattedDate = currentDate.toLocaleDateString('en-US', options);
-                
+                const formattedDate = currentDate.toLocaleDateString('en-US', options);   
                 // Group forecast by day
                 const dailyForecast = {};
                 forecast.list.forEach(item => {
@@ -669,11 +795,9 @@
                     if (!dailyForecast[date]) {
                         dailyForecast[date] = item;
                     }
-                });
-                
+                });        
                 // Get next 5 days forecast
                 const forecastDays = Object.values(dailyForecast).slice(1, 6);
-                
                 weatherDisplay.innerHTML = `
                     <div class="weather-container">
                         <div class="current-weather animate__animated animate__fadeIn">
@@ -686,7 +810,6 @@
                                     <img src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" alt="${current.weather[0].description}">
                                 </div>
                             </div>
-                            
                             <div class="weather-main">
                                 <div class="temperature">${Math.round(current.main.temp)}°C</div>
                                 <div>
@@ -694,7 +817,6 @@
                                     <div>Feels like: ${Math.round(current.main.feels_like)}°C</div>
                                 </div>
                             </div>
-                            
                             <div class="weather-details">
                                 <div class="detail-item">
                                     <span class="detail-icon">💧</span>
@@ -714,7 +836,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="ai-suggestions animate__animated animate__fadeIn">
                             <h3 class="ai-title">
                                 <span class="ai-icon">🤖</span>
@@ -727,7 +848,6 @@
                                 </div>
                             `).join('')}
                         </div>
-                        
                         <div class="forecast animate__animated animate__fadeIn">
                             <h3 class="forecast-title">5-Day Forecast</h3>
                             <div class="forecast-items">
@@ -750,16 +870,13 @@
                     </div>
                 `;
             }
-            
             // Generate AI suggestions based on weather
             async function generateAISuggestions(weatherData) {
                 const weather = weatherData.weather[0].main.toLowerCase();
                 const temp = weatherData.main.temp;
                 const humidity = weatherData.main.humidity;
-                const windSpeed = weatherData.wind.speed;
-                
+                const windSpeed = weatherData.wind.speed;   
                 const suggestions = [];
-                
                 // Clothing suggestion
                 if (temp < 10) {
                     suggestions.push({
@@ -777,7 +894,6 @@
                         content: "Light, breathable fabrics like cotton or linen will keep you cool and comfortable."
                     });
                 }
-                
                 // Activity suggestion
                 if (weather.includes('rain')) {
                     suggestions.push({
@@ -800,7 +916,6 @@
                         content: "Perfect outdoor conditions: Great for sports, picnics, gardening, or exploring your city."
                     });
                 }
-                
                 // Health suggestion
                 if (humidity > 80) {
                     suggestions.push({
@@ -808,14 +923,12 @@
                         content: "High humidity alert: Stay hydrated, use moisture-wicking fabrics, and take breaks in air-conditioned spaces to prevent heat exhaustion."
                     });
                 }
-                
                 if (windSpeed > 10) {
                     suggestions.push({
                         title: "Wind Advisory",
                         content: "Strong winds expected: Secure outdoor objects, be cautious when driving high-profile vehicles, and protect your eyes from debris."
                     });
                 }
-                
                 // Travel suggestion
                 if (weather.includes('fog') || weather.includes('mist')) {
                     suggestions.push({
@@ -823,7 +936,6 @@
                         content: "Low visibility conditions: Allow extra travel time, use fog lights, maintain greater following distances, and avoid unnecessary trips."
                     });
                 }
-                
                 return suggestions;
             }
         });
