@@ -680,20 +680,48 @@
             <!-- Weather data will be displayed here -->
         </div>
     </div>
-
-    <div style="position: relative; padding-bottom: 20.25%; height: 0; overflow: hidden; margin: 20px auto; max-width: 800px;">
-  <iframe 
-    src="https://www.youtube.com/embed/vKx40e7LX7g?si=Na6_6ArnOwLgcsZL" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    referrerpolicy="strict-origin-when-cross-origin" 
-    allowfullscreen 
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 70%;">
-  </iframe>
-</div>
-
-    
+    <div style="position: relative; padding-bottom: 30%; height: 0; overflow: hidden; margin: 20px auto; max-width: 1000px;">
+        <iframe 
+            src="https://www.youtube.com/embed/vKx40e7LX7g?si=Na6_6ArnOwLgcsZL" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 90%;">
+        </iframe>
+    </div>
+    <div style="margin: 20px auto; max-width: 1050px; padding: 20px;">
+        <h1 style="text-align: center;margin: 10px;"><marquee behavior="" direction="">Latest Weather Blogs</marquee></h1>
+        <div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden; margin-top: 20px;">
+          <iframe 
+            src="https://www.accuweather.com/en/news/blogs-webinars" 
+            title="AccuWeather Blogs and Webinars" 
+            frameborder="0" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            referrerpolicy="strict-origin-when-cross-origin">
+          </iframe>
+        </div>
+        <p style="text-align: center; font-size: 14px; margin-top: 10px;">
+          Content sourced from <a href="https://www.accuweather.com/en/news/blogs-webinars" target="_blank" rel="noopener noreferrer">AccuWeather Blogs & Webinars</a>. All rights reserved by AccuWeather ©.
+        </p>
+      </div>
+      <div style="margin: 20px auto; max-width: 1050px; padding: 10px;">
+        <h1 style="text-align: center;"><marquee behavior="" direction="">Severe Weather Warning</marquee></h1>
+        <div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden; margin-top: 20px;">
+          <iframe 
+            src="https://afb.accuweather.com/accuweather-skyguard" 
+            title="AccuWeather SkyGuard - Weather Warnings" 
+            frameborder="0" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            referrerpolicy="strict-origin-when-cross-origin">
+          </iframe>
+        </div>
+      
+        <p style="text-align: center; font-size: 14px; margin-top: 10px;">
+          Content sourced from <a href="https://afb.accuweather.com/accuweather-skyguard" target="_blank" rel="noopener noreferrer">AccuWeather SkyGuard®</a>. All rights reserved by AccuWeather ©.
+        </p>
+      </div>            
     <footer class="weatherwise-footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -1004,6 +1032,6 @@
                 return suggestions;
             }
         });
-    </script>
+        </script>
 </body>
 </html>
