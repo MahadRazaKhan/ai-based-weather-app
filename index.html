@@ -29,6 +29,39 @@
             color: var(--dark);
         }
         
+        /* Loading Screen Styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:lightgray;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-gif {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            color:#4361ee;
+            font-weight: 500;
+        }
+        
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -63,15 +96,7 @@
             }
         }
         
-        input{
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            width: 100%;
-        }
-
-        button {
+        input, button {
             padding: 12px 15px;
             border-radius: 8px;
             border: 1px solid #ddd;
@@ -98,16 +123,17 @@
         }
         
         button {
-            background-color: var(--primary);
+            background-color:#4361ee;
             color: white;
-            border: 1px solid grey;
+            border: none;
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
         }
         
         button:hover {
-            background-color: var(--secondary);
+            background-color:#3f37c9;
+            color: white;
         }
         
         .weather-container {
@@ -337,7 +363,8 @@
         
         .city-btn {
             padding: 6px 12px;
-            background-color: var(--primary);
+            background-color:#4361ee;
+            color: white;
             border: none;
             border-radius: 20px;
             cursor: pointer;
@@ -352,12 +379,19 @@
         }
         
         .city-btn:hover {
-            background-color: var(--secondary);
+            background-color:#3f37c9;
             color: white;
+            transition:all  0.3s;
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <img src="https://forums.synfig.org/uploads/default/original/2X/3/31d749625faa93271be23874d416f9be755b7cb9.gif" alt="Loading..." class="loading-gif">
+        <div class="loading-text">Loading WeatherWise...</div>
+    </div>
+
     <div class="container">
         <header>
             <h1>WeatherWise</h1>
@@ -388,6 +422,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen after 2 seconds or when content is loaded
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                
+                // Remove loading screen completely after animation
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 2000);
+            
             const cityInput = document.getElementById('city-input');
             const searchBtn = document.getElementById('search-btn');
             const weatherDisplay = document.getElementById('weather-display');
