@@ -36,6 +36,16 @@ app.get('/history', (req, res) => {
     });
 });
 
+app.delete('/history', (req, res) => {
+    db.query('DELETE FROM search_history', (err) => {
+        if (err) {
+            console.error('DB Error:', err.message);
+            return res.status(500).send('Database Error');
+        }
+        res.send('History cleared');
+    });
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
