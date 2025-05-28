@@ -112,34 +112,57 @@
       <a href="index.html" class="back-link">← Back to Weather App</a>
     </div>
   </div>
+  <div style="text-align:center; margin-top: 20px;">
+  <button id="clear-btn" class="back-link" style="background-color: #e63946;">🗑️ Clear History</button>
+  </div>
   <script>
-    async function loadHistory() {
-      try {
-        const res = await fetch('/history');
-        const data = await res.json();
+  async function loadHistory() {
+    try {
+      const res = await fetch('/history');
+      const data = await res.json();
 
-        const historyList = document.getElementById('history-list');
-        const totalCount = document.getElementById('total-count');
+      const historyList = document.getElementById('history-list');
+      const totalCount = document.getElementById('total-count');
 
-        if (data.length === 0) {
-          totalCount.innerText = 'No searches recorded.';
-          historyList.innerHTML = '<div class="empty-message">No search history found 📭</div>';
-          return;
-        }
-
-        totalCount.innerText = `Total Searches: ${data.length}`;
-        historyList.innerHTML = data.map(item => `
-          <div class="history-item">
-            <div class="city">${item.city}</div>
-            <div class="date">${new Date(item.searched_at).toLocaleString()}</div>
-          </div>
-        `).join('');
-      } catch (err) {
-        console.error(err);
-        document.getElementById('history-list').innerHTML = '<div class="empty-message">⚠️ Failed to load history.</div>';
+      if (data.length === 0) {
+        totalCount.innerText = 'No searches recorded.';
+        historyList.innerHTML = '<div class="empty-message">No search history found 📭</div>';
+        return;
       }
+
+      totalCount.innerText = `Total Searches: ${data.length}`;
+      historyList.innerHTML = data.map(item => `
+        <div class="history-item">
+          <div class="city">${item.city}</div>
+          <div class="date">${new Date(item.searched_at).toLocaleString()}</div>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error(err);
+      document.getElementById('history-list').innerHTML = '<div class="empty-message">⚠️ Failed to load history.</div>';
     }
-    loadHistory();
-  </script>
+    }
+
+  async function clearHistory() {
+    if (!confirm("Are you sure you want to delete all search history?")) return;
+
+    try {
+      const res = await fetch('/history', { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to clear history');
+
+      document.getElementById('total-count').innerText = 'No searches recorded.';
+      document.getElementById('history-list').innerHTML = '<div class="empty-message">No search history found 📭</div>';
+    } catch (err) {
+      alert('❌ Could not clear history.');
+      console.error(err);
+    }
+  }
+
+  loadHistory();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('clear-btn').addEventListener('click', clearHistory);
+  });
+</script>
 </body>
 </html>
